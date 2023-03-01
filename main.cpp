@@ -34,5 +34,7 @@ int main(int argc, char** argv)
 
     fclose(stream);
 
+    cout << "Debug Message" << endl;
+
     return(0);
 }
