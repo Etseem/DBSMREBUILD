@@ -19,6 +19,7 @@ int main(int argc, char** argv)
     size_t nread;
 
     stream = fopen(filename, "r");
+
     if(stream == NULL)
     {
         cerr << "Opening the file failed!" << endl;
@@ -27,14 +28,13 @@ int main(int argc, char** argv)
 
     while ((nread = getline(&b, &maxlen, stream)) != -1)
     {
-        cout << "I read " << nread << " character: " << buffer;
+        //cout << "I read " << nread << " character: " << buffer;
+        cout << buffer;
     }
-
-    cout << endl;
+    
 
     fclose(stream);
 
-    cout << "Debug Message" << endl;
 
     return(0);
 }
