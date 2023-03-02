@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include "DSString.h"
+#include <string>
 
 using namespace std;
 
@@ -11,6 +12,8 @@ int main(int argc, char** argv)
 {  
     char filename[] = "./data/test_dataset_sentiment_10k.csv";
     FILE *stream;
+
+    vector<DSString> storage;
 
     char buffer[1001];
     char *b = buffer;
@@ -29,9 +32,20 @@ int main(int argc, char** argv)
     while ((nread = getline(&b, &maxlen, stream)) != -1)
     {
         //cout << "I read " << nread << " character: " << buffer;
-        cout << buffer;
+        DSString newdata = buffer;
+        storage.push_back(newdata);
     }
     
+
+    for(int x=0; x<storage.size(); x++)
+    {
+        cout << storage.at(x);
+    }
+
+
+    Tweet testtweet = storage.at(1).convertToTweet();
+
+    cout << "GetID test: " << testtweet.getID() << endl;
 
     fclose(stream);
 

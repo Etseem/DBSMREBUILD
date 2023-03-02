@@ -2,6 +2,8 @@
 #define DSSTRING_H
 
 #include <iostream>
+#include <vector>
+#include "Tweet.h"
 
 using namespace std;
 
@@ -23,10 +25,9 @@ class DSString
         DSString(const DSString &);
         char& operator[](int index);
         DSString operator+(const DSString &);
-        void edit(char*);
         char *c_str() const;
         DSString toLower() const;
-
+        Tweet convertToTweet();
 };
 
 #endif

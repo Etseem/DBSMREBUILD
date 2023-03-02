@@ -1,6 +1,9 @@
 #include "DSString.h"
+#include "Tweet.h"
 #include <iostream>
-#include <string.h>
+//#include <string.h>
+#include <vector>
+
 using namespace std;
 
 DSString::DSString() //Constructor
@@ -41,7 +44,7 @@ std::ostream &operator<<(std::ostream &s, const DSString &input) // Output
     return s;
 }
 
-DSString DSString::substring(size_t start, size_t numChars) const
+DSString DSString::substring(size_t start, size_t numChars) const //Create a substring
 {
     int charsprinted = 0; //Used as a counter
     DSString newdsstring; //Create a new array
@@ -118,12 +121,12 @@ DSString::DSString(const DSString &copydstring) //Copy constructor
     }
 }
 
-char &DSString::operator[](int index)
+char &DSString::operator[](int index) //Return index
 {
     return this->data[index];
 }
 
-DSString DSString::operator+(const DSString &addstring) 
+DSString DSString::operator+(const DSString &addstring)  //Append strings together
 {
     //Create temp variables
     int newlen = len + addstring.len;
@@ -145,10 +148,6 @@ DSString DSString::operator+(const DSString &addstring)
     return *this;
 }
 
-void DSString::edit(char* input)
-{
-}
-
 char *DSString::c_str() const //Return a pointer to data
 {
     return data;
@@ -167,4 +166,34 @@ DSString DSString::toLower() const //Convert all alphabet to lowercase.
     }
 
     return *this;
+}
+
+Tweet DSString::convertToTweet()
+{
+    cout << "Attempting to convert to tweet..." << endl;
+    Tweet newtweet;
+
+    for(int x=0; x<len; x++)
+    {   
+        if(x == 0)
+        {
+            if(data[x] == 48)
+            {
+                newtweet.setID(0);
+                cout << "ID = 0!" << endl;
+            }
+            else if(data[x] == 52)
+            {
+                newtweet.setID(4);
+                cout << "ID = 4!" << endl;
+            }
+            
+        }
+        else if(this->data[x] != ' ')
+        {
+            newtweet.wordvec.push_back(data[x]);
+        }
+    }
+
+    return newtweet;
 }
