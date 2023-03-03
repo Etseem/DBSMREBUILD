@@ -11,15 +11,17 @@ using namespace std;
 
 int main(int argc, char** argv)
 {  
-    char filename[] = "./data/test_dataset_sentiment_10k.csv";
-    FILE *stream;
-
+    
     vector<DSString> storage2; //Stores training dataset
     vector<DSString> storage1; //Stores test dataset
     vector<DSString> storage; //Stores non sentiment test dataset
 
+    fstream fout;
+
+    //Read in sentiment test dataset
+    char filename[] = "test_dataset_sentiment_10k.csv";
+    FILE *stream;
     char buffer[1001];
-    char *b = buffer;
     size_t maxlen = 1000;
 
     size_t nread;
@@ -31,14 +33,14 @@ int main(int argc, char** argv)
         cerr << "Opening the file failed!" << endl;
         return(-1);
     }
+
+    
  
     
 
-
    //Read non sentiment test dataset
-    fstream fout;
 
-    fout.open("test_dataset_sentiment_10k.csv", ios::in);
+    fout.open("test_dataset_10k.csv", ios::in);
 
     if(fout.fail())
     {
@@ -74,28 +76,6 @@ int main(int argc, char** argv)
     cout << "ID TEST: " << teststring.wordvector2.at(0) << endl;
     
     fclose(stream);
-
-    /*
-
-    for(int x=0; x<storage.size(); x++)
-    {
-        cout << storage.at(x);
-    }
-
-
-    Tweet testtweet = storage.at(1).convertToTweet();
-
-    cout << "Get Sentiment test: " << testtweet.getSentiment() << endl;
-    cout << "Printing ID: " << testtweet.getID() << endl;
-    cout << endl;
-
-    Tweet testtweet2 = storage.at(2).convertToTweet();
-    cout << "Get Sentiment test: " << testtweet2.getSentiment() << endl;
-    cout << "Printing ID: " << testtweet2.getID() << endl;
-    cout << endl;
-
-    storage.clear();
-    */
 
    //Clean up
    storage.clear();
