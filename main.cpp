@@ -4,7 +4,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include "DSString.h"
-#include <string>
+//#include <string>
 
 using namespace std;
 
@@ -31,7 +31,6 @@ int main(int argc, char** argv)
 
     while ((nread = getline(&b, &maxlen, stream)) != -1)
     {
-        //cout << "I read " << nread << " character: " << buffer;
         DSString newdata = buffer;
         storage.push_back(newdata);
     }
@@ -45,7 +44,16 @@ int main(int argc, char** argv)
 
     Tweet testtweet = storage.at(1).convertToTweet();
 
-    cout << "GetID test: " << testtweet.getID() << endl;
+    cout << "Get Sentiment test: " << testtweet.getSentiment() << endl;
+    cout << "Printing ID: " << testtweet.getID() << endl;
+    cout << endl;
+
+    Tweet testtweet2 = storage.at(2).convertToTweet();
+    cout << "Get Sentiment test: " << testtweet2.getSentiment() << endl;
+    cout << "Printing ID: " << testtweet2.getID() << endl;
+    cout << endl;
+
+    storage.clear();
 
     fclose(stream);
 
