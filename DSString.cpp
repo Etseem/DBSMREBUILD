@@ -173,27 +173,36 @@ Tweet DSString::convertToTweet()
     cout << "Attempting to convert to tweet..." << endl;
     Tweet newtweet;
 
-    for(int x=0; x<len; x++)
+    for(int x=0; x<1; x++)
     {   
-        if(x == 0)
-        {
+            //Determine Sentiment Value.
             if(data[x] == 48)
             {
-                newtweet.setID(0);
-                cout << "ID = 0!" << endl;
+                newtweet.setSentiment(0);
             }
             else if(data[x] == 52)
             {
-                newtweet.setID(4);
-                cout << "ID = 4!" << endl;
+                newtweet.setSentiment(4);
             }
+            //Find ID.
             
-        }
-        else if(this->data[x] != ' ')
-        {
-            newtweet.wordvec.push_back(data[x]);
-        }
-    }
+            int firstdigit = data[x+2] - '0';
+            int seconddigit = data[x+3] - '0';
+            int thirddigit = data[x+4] - '0';
+            int fourthdigit = data[x+5] - '0';
+            int fifthdigit = data[x+6] - '0';
+            int sixthdigit = data[x+7] - '0';
+            int seventhdigit = data[x+8] - '0';
+            int eigthdigit = data[x+9] - '0';
+            int ninthdigit = data[x+10] - '0';
+            int tenthdigit = data[x+11] - '0';
+            //Extremely roundabout way to append ints to each other without converting them to strings.
+            int ID = (firstdigit*1000000000) + (seconddigit*100000000) + (thirddigit*10000000) + (fourthdigit*1000000) + (fifthdigit*100000) + (sixthdigit*10000) + (seventhdigit*1000) + (eigthdigit*100) + (ninthdigit*10) + (tenthdigit);
+            newtweet.setID(ID);
+    }       
 
     return newtweet;
 }
+
+    
+

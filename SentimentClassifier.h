@@ -15,7 +15,6 @@ class SentimentClassifier
         void train(vector<Tweet>); //Read in training data and indentify words with certain sentiments.
         void predict(); //Read in a dataset and assign 
         void analyze(); //Check accuracy
-
 };
 
 #endif

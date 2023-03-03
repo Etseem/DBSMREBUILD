@@ -18,6 +18,7 @@
         "system_error": "cpp",
         "tuple": "cpp",
         "iostream": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "array": "cpp"
     }
 }
