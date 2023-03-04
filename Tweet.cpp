@@ -11,7 +11,7 @@ Tweet::Tweet()
 
 
 //Getters and Setters
-int Tweet::getID()
+long Tweet::getID()
 {
     return id;
 }
@@ -26,7 +26,7 @@ int Tweet::getPredicted()
     return predictedSentiment;
 }
 
-void Tweet::setID(int x)
+void Tweet::setID(long x)
 {
     id = x;
 }

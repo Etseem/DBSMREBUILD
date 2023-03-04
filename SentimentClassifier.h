@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Tweet.h"
+#include "DSString.h"
 #include <vector>
 
 using namespace std;
@@ -10,11 +11,12 @@ using namespace std;
 class SentimentClassifier
 {
     private:
-        
+        vector<string> negwords;
+        vector<string> poswords;
     public: 
-        void train(vector<Tweet>); //Read in training data and indentify words with certain sentiments.
-        void predict(); //Read in a dataset and assign 
-        void analyze(); //Check accuracy
+        void train(vector<DSString*>); //Read in training data and indentify words with certain sentiments.
+        void predict(vector<DSString*>); //Read in a dataset and assign 
+        void analyze(vector<Tweet>); //Check accuracy
 };
 
 #endif

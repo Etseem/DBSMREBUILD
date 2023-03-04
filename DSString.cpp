@@ -10,6 +10,9 @@ DSString::DSString() //Constructor
 {
     len = 0;
     data = nullptr;
+    sentiment = -1;
+    predictedSentiment = -1;
+    id = -1;
 }
 
 DSString::DSString(const char * str) //Constructor that converts a Cstring
@@ -187,7 +190,6 @@ DSString DSString::toLower() const //Convert all alphabet to lowercase.
 
 Tweet DSString::convertToTweet()
 {
-    cout << "Attempting to convert to tweet..." << endl;
     Tweet newtweet;
 
     for(int x=0; x<1; x++)
@@ -213,9 +215,21 @@ Tweet DSString::convertToTweet()
             int eigthdigit = data[x+9] - '0';
             int ninthdigit = data[x+10] - '0';
             int tenthdigit = data[x+11] - '0';
-            //Extremely roundabout way to append ints to each other without converting them to strings.
-            int ID = (firstdigit*1000000000) + (seconddigit*100000000) + (thirddigit*10000000) + (fourthdigit*1000000) + (fifthdigit*100000) + (sixthdigit*10000) + (seventhdigit*1000) + (eigthdigit*100) + (ninthdigit*10) + (tenthdigit);
-            newtweet.setID(ID);
+            //Extremely roundabout way to append ints to each other without converting them to strings. Using ints overflows.
+            long lon1, lon2, lon3, lon4, lon5, lon6, lon7, lon8, lon9, lon10;
+            lon1 = firstdigit * 1000000000;
+            lon2 = seconddigit * 100000000;
+            lon3 = thirddigit * 10000000;
+            lon4 = fourthdigit * 1000000;
+            lon5 = fifthdigit * 100000;
+            lon6 = sixthdigit * 10000;
+            lon7 = seventhdigit * 1000;
+            lon8 = eigthdigit * 100;
+            lon9 = ninthdigit * 10;
+            lon10 = tenthdigit;
+            long calculatedID = lon1 + lon2 + lon3 + lon4 + lon5 + lon6 + lon7 + lon8 + lon9 + lon10;
+
+            newtweet.setID(calculatedID);
     }       
 
     return newtweet;
@@ -223,15 +237,9 @@ Tweet DSString::convertToTweet()
 
 void DSString::convertToWords()
 {
-    /*
-    for(int x = 0; x<len; x++)
-    {
-        cout << "DEBUG" << data[x];
-    }
-    */
-
     string output = "";
     //string str(data);
+    int foo = 0;
     vector<string> wordvector;
     string input = data;
     while(input.compare(output) != 0)
@@ -246,8 +254,8 @@ void DSString::convertToWords()
             continue;
         }
         wordvector2.push_back(output);
-        cout << "# of elements in wordvec2: " << wordvector2.size() << endl;
     }
+
 }
 
 void DSString::addID(string s)
