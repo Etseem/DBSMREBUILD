@@ -25,7 +25,7 @@ int main(int argc, char** argv)
     fstream fout;
 
     //Read in training dataset
-    fout.open("train_dataset_20k.csv", ios::in);
+    fout.open("train_dataset_100.csv", ios::in);
     if(fout.fail())
     {
         cerr << "Opening the file failed!" << endl;
@@ -57,10 +57,15 @@ int main(int argc, char** argv)
             newdsstring->sentiment = 4;
         }
 
+        newdsstring->convertToWords();
+
         storage2.push_back(newdsstring);
         //cout << "Pushed back a DSString with an ID of: " << newdsstring.id << " and a sentiment of " << newdsstring.sentiment << endl;
 
     }while(fout.good());
+
+    //cout << "DEBUG" << storage2.at(2)->id << endl;
+    //cout << "DEBUG 2: " << storage2.at(2)->wordvector2.at(2) << endl;
 
     
     fout.close();
@@ -131,10 +136,8 @@ int main(int argc, char** argv)
 
     //Now that we have all the data good to go we can use the sentiment classifier.
     SentimentClassifier jeff;
-
-    
-
     jeff.train(storage2);
+
     //jeff.predict(storage);
     //jeff.analyze(storage1convert);
 

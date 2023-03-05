@@ -242,6 +242,7 @@ void DSString::convertToWords()
     int foo = 0;
     vector<string> wordvector;
     string input = data;
+
     while(input.compare(output) != 0)
     {
         auto index = input.find_first_of(" ");
@@ -254,6 +255,7 @@ void DSString::convertToWords()
             continue;
         }
         wordvector2.push_back(output);
+        //wordvector3.push_back(&output);
     }
 
 }

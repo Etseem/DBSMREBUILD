@@ -35,6 +35,7 @@ class DSString
         //End of Methods
         long id;
         vector<string> wordvector2;
+        vector<string*> wordvector3;
         char *data;
         int sentiment; //For training data, the ACTUAL sentiment value.
         int predictedSentiment; //For assigning what the program thinks this tweet's sentiment is.
