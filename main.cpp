@@ -25,7 +25,7 @@ int main(int argc, char** argv)
     fstream fout;
 
     //Read in training dataset
-    fout.open("train_dataset_100.csv", ios::in);
+    fout.open("train_dataset_20k.csv", ios::in);
     if(fout.fail())
     {
         cerr << "Opening the file failed!" << endl;
@@ -138,7 +138,7 @@ int main(int argc, char** argv)
     SentimentClassifier jeff;
     jeff.train(storage2);
     jeff.predict(storage);
-    //jeff.analyze(storage1convert);
+    jeff.analyze(storage1convert, storage);
 
    //Clean up
    storage.clear();

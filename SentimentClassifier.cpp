@@ -13,12 +13,10 @@ void SentimentClassifier::train(vector<DSString*> dataset) //Determine what word
 
     vector<string> negativewords;
     vector<string> positivewords;
-    vector<int> negToDel;
-    vector<int> posToDel;
+    //posToDel and negToDel1 didn't work out. Using sets got me exactly what I wanted more efficiently.
     set<int> negToDel2;
     set<int> posToDel2;
-    vector<int> negToDel3;
-    vector<int> posToDel3;
+
 
     DSString foo = *dataset.at(1);
 
@@ -68,20 +66,11 @@ void SentimentClassifier::train(vector<DSString*> dataset) //Determine what word
         {
             if(positivewords.at(y) == negativewords.at(x)) //If equal, delete them both. Since I don't want to change the sizes while it's running, I'll make an vector of indexes to delete.
             {
-                cout << "Attempting to push back Neg = " << x << " & Pos = " << y << endl;
-                negToDel.push_back(x);
-                posToDel.push_back(y);
                 negToDel2.insert(x);
                 posToDel2.insert(y);
             }
         }
     }
-    cout << "Completed negToDel and posToDel" << endl;
-    
-    cout << "# of negToDel: " << negToDel.size() << endl;
-    cout << "# of posToDel: " << posToDel.size() << endl;
-    cout << "# of negToDel2: " << negToDel2.size() << endl;
-    cout << "# of posToDel2: " << posToDel2.size() << endl;
 
     //Clean up and delete duplicates.
     /*
@@ -92,27 +81,12 @@ void SentimentClassifier::train(vector<DSString*> dataset) //Determine what word
     posToDel.erase(unique(posToDel.begin(), posToDel.end()));
     */
 
-    unique_copy(negToDel.begin(), negToDel.end(), back_inserter(negToDel3));
-    unique_copy(posToDel.begin(), posToDel.end(), back_inserter(posToDel3));
-
-    cout << "Cleaned up Pos and Neg to Del!" << endl;
-
-    cout << "# of negativewords: " << negativewords.size() << endl;
-    cout << "# of positivewords: " << positivewords.size() << endl;
-    cout << "# of negToDel3: " << negToDel3.size() << endl;
-    cout << "# of posToDel3: " << posToDel3.size() << endl;
-
-    negToDel = negToDel3;
-    posToDel = posToDel3;
-
-    cout << "# of negToDel: " << negToDel.size() << endl;
-    cout << "# of posToDel: " << posToDel.size() << endl;
 
     //Delete all words in common.
-    cout << "Press ENTER to continue." << endl;
-    cin.get();
 
     //Start at the end of the vector so we don't displace the values at the start.
+
+    int counter = 0;
 
     for(int x=negativewords.size(); x>0; x--)
        {
@@ -121,13 +95,20 @@ void SentimentClassifier::train(vector<DSString*> dataset) //Determine what word
             {
                 negativewords.erase(negativewords.begin() + x);
             }
+            counter++;
+            cout << counter << endl;
        }
+    
+    counter = 0;
+
     for(int x=positivewords.size(); x>0; x--)
        {
             auto test = posToDel2.find(x);
             if(test != posToDel2.end())
             {
                 positivewords.erase(positivewords.begin() + x);
+                counter++;
+                cout << counter << endl;
             }
        }
     /*
@@ -241,5 +222,10 @@ void SentimentClassifier::predict(vector<DSString*> dataset)
 
 void SentimentClassifier::analyze(vector<Tweet> answerKey, vector<DSString *> predictedTweets)
 {
+
+for(int x=0; x<answerKey.size(); x++)
+{
+
+}
 
 }
