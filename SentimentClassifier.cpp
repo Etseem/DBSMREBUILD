@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm> //Used to std::sort.
+#include <set>
 using namespace std;
 
 
@@ -14,6 +15,10 @@ void SentimentClassifier::train(vector<DSString*> dataset) //Determine what word
     vector<string> positivewords;
     vector<int> negToDel;
     vector<int> posToDel;
+    set<int> negToDel2;
+    set<int> posToDel2;
+    vector<int> negToDel3;
+    vector<int> posToDel3;
 
     DSString foo = *dataset.at(1);
 
@@ -66,22 +71,40 @@ void SentimentClassifier::train(vector<DSString*> dataset) //Determine what word
                 cout << "Attempting to push back Neg = " << x << " & Pos = " << y << endl;
                 negToDel.push_back(x);
                 posToDel.push_back(y);
+                negToDel2.insert(x);
+                posToDel2.insert(y);
             }
         }
     }
     cout << "Completed negToDel and posToDel" << endl;
     
+    cout << "# of negToDel: " << negToDel.size() << endl;
+    cout << "# of posToDel: " << posToDel.size() << endl;
+    cout << "# of negToDel2: " << negToDel2.size() << endl;
+    cout << "# of posToDel2: " << posToDel2.size() << endl;
+
     //Clean up and delete duplicates.
+    /*
     sort(negToDel.begin(), negToDel.end());
     negToDel.erase(unique(negToDel.begin(),negToDel.end()));
 
     sort(posToDel.begin(), posToDel.end());
     posToDel.erase(unique(posToDel.begin(), posToDel.end()));
+    */
+
+    unique_copy(negToDel.begin(), negToDel.end(), back_inserter(negToDel3));
+    unique_copy(posToDel.begin(), posToDel.end(), back_inserter(posToDel3));
 
     cout << "Cleaned up Pos and Neg to Del!" << endl;
 
     cout << "# of negativewords: " << negativewords.size() << endl;
     cout << "# of positivewords: " << positivewords.size() << endl;
+    cout << "# of negToDel3: " << negToDel3.size() << endl;
+    cout << "# of posToDel3: " << posToDel3.size() << endl;
+
+    negToDel = negToDel3;
+    posToDel = posToDel3;
+
     cout << "# of negToDel: " << negToDel.size() << endl;
     cout << "# of posToDel: " << posToDel.size() << endl;
 
@@ -89,15 +112,28 @@ void SentimentClassifier::train(vector<DSString*> dataset) //Determine what word
     cout << "Press ENTER to continue." << endl;
     cin.get();
 
-    for(int x=0; x<negToDel.size()-1; x++)
-    {
     //Start at the end of the vector so we don't displace the values at the start.
+
+    for(int x=negativewords.size(); x>0; x--)
+       {
+            auto test = negToDel2.find(x);
+            if(test != negToDel2.end())
+            {
+                negativewords.erase(negativewords.begin() + x);
+            }
+       }
+    for(int x=positivewords.size(); x>0; x--)
+       {
+            auto test = posToDel2.find(x);
+            if(test != posToDel2.end())
+            {
+                positivewords.erase(positivewords.begin() + x);
+            }
+       }
+    /*
     if(!negativewords.empty())
     {
-        cout << "Attempting to delete something negative!" << endl;
-        negativewords.erase((negativewords.begin() + negToDel.back()));
-        cout << "Popping back..." << endl;
-        negToDel.pop_back();
+        cout << "COMPLETED" << endl;
     }
     else
     {
@@ -105,6 +141,8 @@ void SentimentClassifier::train(vector<DSString*> dataset) //Determine what word
     }
     
     }
+    
+
     for(int x=0; x<posToDel.size(); x++)
     {
     //Start at the end of the vector so we don't displace the values at the start.
@@ -113,10 +151,15 @@ void SentimentClassifier::train(vector<DSString*> dataset) //Determine what word
     posToDel.pop_back();
     }
 
+    */
     cout << "Done deleting!" << endl;
     
     //And now we have a list of words that only appear in "positive" tweets and words that only appear in "negative" tweets.
 
+    this->poswords = positivewords;
+    this->negwords = negativewords;
+
+    /*
     cout << "Positive words:" << endl;
 
     for(int x=0; x<positivewords.size(); x++)
@@ -130,26 +173,30 @@ void SentimentClassifier::train(vector<DSString*> dataset) //Determine what word
     {
         cout << negativewords.at(x) << endl;
     }
-
-
-    this->poswords = positivewords;
-    this->negwords = negativewords;
-
-    
-
-
-
-    }
-
-void SentimentClassifier::train2(vector<DSString> &foo)
-{
-
-
+    */
 }
 
 void SentimentClassifier::predict(vector<DSString*> dataset)
 {
 
+    /*
+    cout << "Positive words:" << endl;
+
+    for(int x=0; this->poswords.size()-2; x++)
+    {
+        cout << this->poswords.at(x) << endl;
+    }
+
+    cout << "Negative words:" << endl;
+
+    for(int x=0; this->negwords.size()-2; x++)
+    {
+        cout << this->negwords.at(x) << endl;
+    }
+
+    cout << "Done Printing!" << endl;
+
+    */
     
 
     for(int x=0; x<dataset.size(); x++) //Go through every tweet.
@@ -188,10 +235,11 @@ void SentimentClassifier::predict(vector<DSString*> dataset)
             dataset.at(x)->predictedSentiment = 4;
         }
     }
+
+    cout << "Predicted!" << endl;
 }
 
-/*
-    
+void SentimentClassifier::analyze(vector<Tweet> answerKey, vector<DSString *> predictedTweets)
+{
 
-
-*/
+}

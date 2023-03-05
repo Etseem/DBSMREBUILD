@@ -17,7 +17,7 @@ class SentimentClassifier
         void train(vector<DSString*>); //Read in training data and indentify words with certain sentiments.
         void train2(vector<DSString> &foo);
         void predict(vector<DSString*>); //Read in a dataset and assign 
-        void analyze(vector<Tweet>); //Check accuracy
+        void analyze(vector<Tweet>, vector<DSString*>); //Check accuracy
 };
 
 #endif

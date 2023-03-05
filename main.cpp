@@ -19,7 +19,7 @@ int main(int argc, char** argv)
     vector<DSString> storage1; //Stores test dataset results, just ID and sentiment associated.
     vector<Tweet> storage1convert; //Stores values from storage1 that have been converted to tweets. (Broken up)
 
-    vector<DSString> storage; //Stores non sentiment test dataset
+    vector<DSString*> storage; //Stores non sentiment test dataset
 
 
     fstream fout;
@@ -123,8 +123,8 @@ int main(int argc, char** argv)
         getline(fout, foo4); //Read until the end of the line.
 
         const char *inp = foo4.c_str();
-        DSString newdsstring(inp);
-        newdsstring.addID(foo);
+        DSString* newdsstring = new DSString(inp);
+        newdsstring->addID(foo);
 
         storage.push_back(newdsstring);
 
@@ -137,8 +137,7 @@ int main(int argc, char** argv)
     //Now that we have all the data good to go we can use the sentiment classifier.
     SentimentClassifier jeff;
     jeff.train(storage2);
-
-    //jeff.predict(storage);
+    jeff.predict(storage);
     //jeff.analyze(storage1convert);
 
    //Clean up
