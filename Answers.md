@@ -24,11 +24,11 @@ Replace the following image with your diagram. You can draw it by hand and take 
 
 1. How do you train the model and how do you classify a new tweet? Give a short description of the main steps.
 
-    > First, I separated all of the tweets by their sentiment. Then, I would add every single word to a vector of "negative" and "positive" words. Then I would delete all words in common between the two vectors to eliminate "neutral" words.
+    > First, I separated all of the tweets by their sentiment. Then, I would add every single word to a vector of "negative" and "positive" words. Then I would delete all words in common between the two vectors to eliminate "neutral" words. If a tweet had a majority of "negative" words, it would be marked negative and vice versa. If a tweet is completely neutral, it would be marked positive. (found to be more accurate than always negative.). I also tried out using weighted randomization to determine sentiment, but it ended up less accurate.
 
 2. How long did your code take for training and what is the time complexity of your training implementation (Big-Oh notation)? Remember that training includes reading the tweets, breaking it into words, counting, ... Explain why you get this complexity (e.g., what does `N` stand for and how do your data structures/algorithms affect the complexity).
 
-   > It took between 10-15 minutes with an i5-7500 (I missed exactly when it happened). In terms of big O notation, I believe it is O(N^2). Reading tweets = O(n), Breaking into words is O(n), Adding every word to a positive/negative vector is O(n), sorting vectors is O(n^2), comparing each positive/negative word is O(n^2). N = number of times you have to read through the data per entry.
+   > It took between 10-15 minutes on my PC (I missed exactly when it happened). In terms of big O notation, I believe it is O(N^2). Reading tweets = O(n), Breaking into words is O(n), Adding every word to a positive/negative vector is O(n), sorting vectors is O(n^2), comparing each positive/negative word is O(n^2). N = number of times you have to read through the data per entry.
 
 3. How long did your code take for classification and what is the time complexity of your classification implementation (Big-Oh notation)? Explain why.
 
