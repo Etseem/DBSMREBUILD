@@ -33,6 +33,7 @@ class DSString
         void addID(string);
 
         //End of Methods
+
         long id;
         vector<string> wordvector2;
         vector<string*> wordvector3;

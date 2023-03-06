@@ -42,12 +42,6 @@ DSString::DSString(string s) //Converts strings into char arrays
     data = chararray;
     len = sizeof(chararray);
 
-/*
-    for(int x=0; x<len; x++)
-    {
-        cout << data[x] << endl;
-    }
-*/
 }
 
 std::ostream &operator<<(std::ostream &s, const DSString &input) // Output
@@ -233,7 +227,6 @@ Tweet DSString::convertToTweet()
 void DSString::convertToWords()
 {
     string output = "";
-    //string str(data);
     int foo = 0;
     vector<string> wordvector;
     string input = data;
@@ -249,9 +242,7 @@ void DSString::convertToWords()
         {
             continue;
         }
-        //cout << "Attempting to push back!" << endl;
         wordvector2.push_back(output);
-        //wordvector3.push_back(&output);
     }
 
 }
@@ -287,7 +278,5 @@ strcpy(chararray, s.c_str());
             //Extremely roundabout way to append ints to each other without converting them to strings. Using ints overflows.
             long calculatedID = lon1 + lon2 + lon3 + lon4 + lon5 + lon6 + lon7 + lon8 + lon9 + lon10;
             
-            //int calculatedID = firstdigit + seconddigit + thirddigit + fourthdigit + fifthdigit + sixthdigit + seventhdigit + eigthdigit + ninthdigit + tenthdigit;
-            //cout << "Setting ID to: " << calculatedID << endl;
             id = calculatedID;
 }

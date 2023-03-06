@@ -8,7 +8,6 @@
 #include "Tweet.h"
 #include "SentimentClassifier.h"
 #include <iomanip>
-//#include <string>
 
 using namespace std;
 
@@ -21,7 +20,6 @@ int main(int argc, char** argv)
     vector<Tweet> storage1convert; //Stores values from storage1 that have been converted to tweets. (Broken up)
 
     vector<DSString*> storage; //Stores non sentiment test dataset
-
 
     fstream fout;
 
@@ -42,6 +40,8 @@ int main(int argc, char** argv)
         getline(fout, foo3, ','); //Read in User
         getline(fout, foo4); //Read until the end of the line.
 
+        //Since Date, Query, and User are not useful information, they aren't used again.
+
         const char *inp = foo4.c_str();
         DSString* newdsstring = new DSString(inp);
         newdsstring->addID(foo);
@@ -58,22 +58,18 @@ int main(int argc, char** argv)
             newdsstring->sentiment = 4;
         }
 
-        newdsstring->convertToWords();
+        newdsstring->convertToWords(); //Convert the tweets into individual words
 
-        storage2.push_back(newdsstring);
-        //cout << "Pushed back a DSString with an ID of: " << newdsstring.id << " and a sentiment of " << newdsstring.sentiment << endl;
+        storage2.push_back(newdsstring); //Add it to storage.
 
     }while(fout.good());
-
-    //cout << "DEBUG" << storage2.at(2)->id << endl;
-    //cout << "DEBUG 2: " << storage2.at(2)->wordvector2.at(2) << endl;
 
     
     fout.close();
 
 
     //Read in sentiment test dataset
-    char filename[] = "test_dataset_sentiment_10k.csv";
+    char filename[] = "test_dataset_sentiment_10k.csv"; //Uses C File I/O from the example
     FILE *stream;
     char buffer[1001];
     size_t maxlen = 1000;
@@ -97,9 +93,7 @@ int main(int argc, char** argv)
     for(int x = 0; x<storage1.size(); x++)
     {
         Tweet testweet = storage1.at(x).convertToTweet(); //Use convertToTweet function to break into ID and Sentiment
-        //cout << testweet.getID() << endl;
         storage1convert.push_back(testweet);
-        //cout << storage1convert.at(x).getID() << endl;
     }
     
 
@@ -131,17 +125,18 @@ int main(int argc, char** argv)
 
     }while(fout.good());
 
-    //Storage.at(0) is the first line. Do not call under any circumstances :]
 
-    
+    //Storage.at(0) is the first line, so it does not follow the same rules as the other ones. Do not call it.
+
 
     //Now that we have all the data good to go we can use the sentiment classifier.
-    SentimentClassifier jeff;
-    jeff.train(storage2);
+    SentimentClassifier jeff; //I figured it'd be fun to pretend that this class was a person named Jeff.
+    cout << "Beginning Training!" << endl;
+    jeff.train(storage2); //Train on the dataset.
     cout << "Done Training!" << endl;
-    jeff.predict(storage); //Pass in data to predict and trained dataset.
+    jeff.predict(storage); //Pass in data to predict.
     cout << "Done Predicting!" << endl;
-    float accuracy = jeff.analyze(storage1convert, storage);
+    float accuracy = jeff.analyze(storage1convert, storage); //Determine accuracy.
     cout << "Done Analyzing!" << endl;
 
     ofstream predictions; //Outputs the predictions to a .csv file.
@@ -157,7 +152,7 @@ int main(int argc, char** argv)
     ofstream outputAccuracy; //Outputs the results, with the prediction, the actual answer, then the ID.
     outputAccuracy.open("Accuracy.csv");
 
-    outputAccuracy << fixed << setprecision(3) << accuracy << "\n";
+    outputAccuracy << fixed << setprecision(3) << accuracy << "\n"; //Write the first line (Accuracy to 3 decimal points)
     for(int x=1; x<storage.size()-1; x++)
     {
         outputAccuracy << storage.at(x)->predictedSentiment << "," << storage1convert.at(x).getSentiment() << "," << storage.at(x)->id << "\n";

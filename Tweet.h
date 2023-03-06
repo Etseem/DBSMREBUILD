@@ -24,8 +24,6 @@ class Tweet
         void setID(long);
         void setSentiment(int);
         void setPredicted(int);
-        vector<int> wordvec;
-        vector<char> garbvec; // Holds all commas and stuff.
 };
 
 #endif
