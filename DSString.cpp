@@ -50,11 +50,6 @@ DSString::DSString(string s) //Converts strings into char arrays
 */
 }
 
-std::istream &operator>>(std::istream &in, DSString &c) //Input stream? Come back to this later
-{
-    return in;
-}
-
 std::ostream &operator<<(std::ostream &s, const DSString &input) // Output
 {
     for(int x=0; x<input.len; x++)
@@ -254,6 +249,7 @@ void DSString::convertToWords()
         {
             continue;
         }
+        //cout << "Attempting to push back!" << endl;
         wordvector2.push_back(output);
         //wordvector3.push_back(&output);
     }

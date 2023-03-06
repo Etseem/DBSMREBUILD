@@ -7,6 +7,7 @@
 #include "DSString.h"
 #include "Tweet.h"
 #include "SentimentClassifier.h"
+#include <iomanip>
 //#include <string>
 
 using namespace std;
@@ -125,7 +126,7 @@ int main(int argc, char** argv)
         const char *inp = foo4.c_str();
         DSString* newdsstring = new DSString(inp);
         newdsstring->addID(foo);
-
+        newdsstring->convertToWords();
         storage.push_back(newdsstring);
 
     }while(fout.good());
@@ -137,8 +138,33 @@ int main(int argc, char** argv)
     //Now that we have all the data good to go we can use the sentiment classifier.
     SentimentClassifier jeff;
     jeff.train(storage2);
-    jeff.predict(storage);
-    jeff.analyze(storage1convert, storage);
+    cout << "Done Training!" << endl;
+    jeff.predict(storage); //Pass in data to predict and trained dataset.
+    cout << "Done Predicting!" << endl;
+    float accuracy = jeff.analyze(storage1convert, storage);
+    cout << "Done Analyzing!" << endl;
+
+    ofstream predictions; //Outputs the predictions to a .csv file.
+    predictions.open("Predictions.csv");
+
+    for(int x=1; x<storage.size()-1; x++)
+    {
+        predictions << storage.at(x)->predictedSentiment << "," << storage.at(x)->id << "\n";
+    }
+
+    predictions.close();
+
+    ofstream outputAccuracy; //Outputs the results, with the prediction, the actual answer, then the ID.
+    outputAccuracy.open("Accuracy.csv");
+
+    outputAccuracy << fixed << setprecision(3) << accuracy << "\n";
+    for(int x=1; x<storage.size()-1; x++)
+    {
+        outputAccuracy << storage.at(x)->predictedSentiment << "," << storage1convert.at(x).getSentiment() << "," << storage.at(x)->id << "\n";
+    }
+
+    outputAccuracy.close();
+    
 
    //Clean up
    storage.clear();
@@ -146,6 +172,7 @@ int main(int argc, char** argv)
    storage2.clear();
    storage1convert.clear();
    fout.close();
+   
    
     return(0);
 }

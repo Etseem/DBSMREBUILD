@@ -53,6 +53,7 @@ void SentimentClassifier::train(vector<DSString*> dataset) //Determine what word
     cout << "Attempting to sort the vectors..." << endl;
 
     //Clean up data, delete duplicates.
+
     sort(negativewords.begin(), negativewords.end());
     negativewords.erase(unique(negativewords.begin(),negativewords.end()));
 
@@ -96,7 +97,7 @@ void SentimentClassifier::train(vector<DSString*> dataset) //Determine what word
                 negativewords.erase(negativewords.begin() + x);
             }
             counter++;
-            cout << counter << endl;
+           //cout << counter << endl;
        }
     
     counter = 0;
@@ -108,7 +109,7 @@ void SentimentClassifier::train(vector<DSString*> dataset) //Determine what word
             {
                 positivewords.erase(positivewords.begin() + x);
                 counter++;
-                cout << counter << endl;
+                //cout << counter << endl;
             }
        }
     /*
@@ -140,6 +141,8 @@ void SentimentClassifier::train(vector<DSString*> dataset) //Determine what word
     this->poswords = positivewords;
     this->negwords = negativewords;
 
+    cout << "DEBUG CODES PART 1:" << this->poswords.size() << " " << this->negwords.size() << endl;
+
     /*
     cout << "Positive words:" << endl;
 
@@ -161,16 +164,18 @@ void SentimentClassifier::predict(vector<DSString*> dataset)
 {
 
     /*
+    cout << "DEBUG CODES:" << this->poswords.size() << " " << this->negwords.size() << endl;
+
     cout << "Positive words:" << endl;
 
-    for(int x=0; this->poswords.size()-2; x++)
+    for(int x=0; x<this->poswords.size()-1; x++)
     {
         cout << this->poswords.at(x) << endl;
     }
 
     cout << "Negative words:" << endl;
 
-    for(int x=0; this->negwords.size()-2; x++)
+    for(int x=0; x<this->negwords.size(); x++)
     {
         cout << this->negwords.at(x) << endl;
     }
@@ -178,7 +183,11 @@ void SentimentClassifier::predict(vector<DSString*> dataset)
     cout << "Done Printing!" << endl;
 
     */
-    
+
+   for(int x=0; x<dataset.size(); x++)
+   {
+    //cout << "SIZE: " << dataset.at(x)->wordvector2.size() << endl;
+   }
 
     for(int x=0; x<dataset.size(); x++) //Go through every tweet.
     {
@@ -191,6 +200,7 @@ void SentimentClassifier::predict(vector<DSString*> dataset)
             {
                 if(dataset.at(x)->wordvector2.at(y) == poswords.at(z))
                 {
+                    cout << "Looks negative!" << endl;
                     poscount++;
                 }
             }
@@ -198,10 +208,12 @@ void SentimentClassifier::predict(vector<DSString*> dataset)
             {
                 if(dataset.at(x)->wordvector2.at(y) == negwords.at(z))
                 {
+                    cout << "Looks positive!" << endl;
                     negcount++;
                 }
             }
         }
+
 
         if(negcount > poscount) //If more negative, predict 0
         {
@@ -211,21 +223,35 @@ void SentimentClassifier::predict(vector<DSString*> dataset)
         {
             dataset.at(x)->predictedSentiment = 4;
         }
-        else //If completely neutral, predict positive (4)
+        else //If completely neutral or not in dataset, predict positive (4)
         {
             dataset.at(x)->predictedSentiment = 4;
         }
     }
-
-    cout << "Predicted!" << endl;
 }
 
-void SentimentClassifier::analyze(vector<Tweet> answerKey, vector<DSString *> predictedTweets)
+float SentimentClassifier::analyze(vector<Tweet> answerKey, vector<DSString *> predictedTweets)
 {
 
-for(int x=0; x<answerKey.size(); x++)
+int numCorrect = 0;
+
+
+for(int x=1; x<answerKey.size(); x++)
 {
+    int answer = answerKey.at(x).getSentiment();
+    int predictedanswer = predictedTweets.at(x)->predictedSentiment;
+
+if(answer == predictedanswer)
+{
+    numCorrect++;
+}
 
 }
+
+cout << "Accuracy: " << numCorrect << "/" << answerKey.size() << endl;
+
+float accuracy = float(numCorrect) / float(answerKey.size());
+
+return accuracy;
 
 }

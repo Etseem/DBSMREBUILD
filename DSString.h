@@ -16,8 +16,8 @@ class DSString
         DSString();
         DSString(const char *);
         DSString(string);
-        friend std::istream &operator>>(std::istream &in, DSString &c);
-        friend std::ostream &operator<<(std::ostream &, const DSString &);
+        //friend istream &operator>>(std::istream &in, DSString &c);
+        friend ostream &operator<<(std::ostream &, const DSString &);
         DSString substring(size_t start, size_t numChars) const;
         DSString operator=(const DSString &);
         bool operator==(const DSString &) const;
