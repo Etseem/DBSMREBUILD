@@ -11,7 +11,10 @@
 
 using namespace std;
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[]) 
+//Tested using the command line arguments: ./classifier.out data/train_dataset_20k.csv data/test_dataset_10k.csv data/test_dataset_sentiment_10k.csv results.csv accuracy.txt
+//Built using the command 'g++ *.cpp *.h -o DBSMREBUILD
+//Run using the command ./DBSMREBUILD [command line arguments here]
 {  
     
     vector<DSString*> storage2; //Stores training dataset
@@ -24,7 +27,10 @@ int main(int argc, char** argv)
     fstream fout;
 
     //Read in training dataset
-    fout.open("train_dataset_20k.csv", ios::in);
+
+    cout << "Opening: " << argv[2] << endl;
+
+    fout.open(argv[2], ios::in);
     if(fout.fail())
     {
         cerr << "Opening the file failed!" << endl;
@@ -68,8 +74,10 @@ int main(int argc, char** argv)
     fout.close();
 
 
+
     //Read in sentiment test dataset
-    char filename[] = "test_dataset_sentiment_10k.csv"; //Uses C File I/O from the example
+    char filename[256]; //Uses C File I/O from the example
+    strcpy(filename, argv[4]); //Copy argv2 to filename.
     FILE *stream;
     char buffer[1001];
     size_t maxlen = 1000;
@@ -99,9 +107,11 @@ int main(int argc, char** argv)
 
            fclose(stream);
 
-   //Read non sentiment test dataset
+   //Read non-sentiment test dataset
 
-    fout.open("test_dataset_10k.csv", ios::in);
+    string testdataset = argv[3];
+
+    fout.open(testdataset, ios::in);
 
     if(fout.fail())
     {
@@ -139,8 +149,9 @@ int main(int argc, char** argv)
     float accuracy = jeff.analyze(storage1convert, storage); //Determine accuracy.
     cout << "Done Analyzing!" << endl;
 
+
     ofstream predictions; //Outputs the predictions to a .csv file.
-    predictions.open("Predictions.csv");
+    predictions.open(argv[5]);
 
     for(int x=1; x<storage.size()-1; x++)
     {
@@ -150,7 +161,7 @@ int main(int argc, char** argv)
     predictions.close();
 
     ofstream outputAccuracy; //Outputs the results, with the prediction, the actual answer, then the ID.
-    outputAccuracy.open("Accuracy.csv");
+    outputAccuracy.open(argv[6]);
 
     outputAccuracy << fixed << setprecision(3) << accuracy << "\n"; //Write the first line (Accuracy to 3 decimal points)
     for(int x=1; x<storage.size()-1; x++)
